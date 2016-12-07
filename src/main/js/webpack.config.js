@@ -1,29 +1,33 @@
 /* eslint-disable */
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 
-var BUILD_DIR = path.resolve(__dirname, '../resources/static/bundle');
-var APP_DIR = path.resolve(__dirname, 'app');
+const BUILD_DIR = path.resolve(__dirname, '../resources/static/bundle');
+const APP_DIR = path.resolve(__dirname, 'app');
+const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 
-var config = {
-    entry: APP_DIR + '/index.jsx',
-    output: {
-        path: BUILD_DIR,
-        filename: 'bundle.js'
-    },
-    module : {
-        loaders : [
-            {
-                test : /\.jsx?/,
-                loader : 'babel',
-                include : APP_DIR,
-                exclude: /(node_modules|bower_components)/,
-                query: {
-                    presets: ['es2015']
-                }
-            }
-        ]
-    }
+const config = {
+  entry: APP_DIR + '/index.jsx',
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
+  output: {
+    path: BUILD_DIR,
+    filename: 'bundle.js'
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'babel',
+        include: APP_DIR,
+        exclude: [nodeModulesPath],
+        query: {
+          presets: ['react', 'es2015', 'stage-0']
+        }
+      }
+    ]
+  }
 };
 
 module.exports = config;
