@@ -1,7 +1,9 @@
 {
   "parser": "babel-eslint",
   "rules": {
-    "strict": 0
+    "strict": 0,
+    "react/forbid-prop-types": 0,
+    "react/jsx-no-target-blank": 0
   },
   "extends": "airbnb"
 }

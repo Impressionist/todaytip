@@ -2,6 +2,7 @@ package com.todaytip.domain.tip;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Transient;
 
 @Getter
 @Setter
@@ -12,4 +13,7 @@ public class Tip {
     private String writer;
     private Long readCount;
     private Long likeCount;
+
+    @Transient
+    private String image;
 }

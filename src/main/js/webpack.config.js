@@ -7,7 +7,7 @@ const APP_DIR = path.resolve(__dirname, 'app');
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 
 const config = {
-  entry: APP_DIR + '/index.jsx',
+  entry: ['babel-polyfill', APP_DIR + '/index.jsx'],
   resolve: {
     extensions: ['', '.js', '.jsx']
   },

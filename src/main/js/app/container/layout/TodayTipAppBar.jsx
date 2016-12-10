@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
-import TodayTipSearchInput from '../component/search/TodayTipSearchInput';
+import TodayTipSearchInput from '../../component/search/TodayTipSearchInput';
 
 export default class TodayTipAppBar extends Component {
 
