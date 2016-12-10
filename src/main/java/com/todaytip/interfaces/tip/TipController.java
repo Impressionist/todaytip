@@ -40,6 +40,7 @@ public class TipController {
         tipDto.setId(tip.getId());
         tipDto.setTitle(tip.getTitle());
         tipDto.setLink(tip.getLink());
+        tipDto.setWriter(tip.getWriter());
         tipDto.setImage(tip.getImage());
         tipDto.setLikeCount(tip.getLikeCount());
         tipDto.setReadCount(tip.getReadCount());
