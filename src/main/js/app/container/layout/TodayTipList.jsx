@@ -36,9 +36,7 @@ class TodayTipList extends React.Component {
   };
 
   elementInfiniteLoad = () => (
-    <div className="infinite-list-item">
-      Loading...
-    </div>
+    <div className="infinite-list-item"></div>
   );
 
   renderElements = (tip) => {

@@ -56486,11 +56486,7 @@
 	      });
 	      _this.setState({ elements: currentElement.concat(newElement) });
 	    }, _this.elementInfiniteLoad = function () {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'infinite-list-item' },
-	        'Loading...'
-	      );
+	      return _react2.default.createElement('div', { className: 'infinite-list-item' });
 	    }, _this.renderElements = function (tip) {
 	      var defaultImage = 'images/tip.jpg';
 	      return _react2.default.createElement(
