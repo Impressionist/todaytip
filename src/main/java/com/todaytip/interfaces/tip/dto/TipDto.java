@@ -11,6 +11,4 @@ public class TipDto {
     private String link;
     private String image;
     private String writer;
-    private Long readCount;
-    private Long likeCount;
 }

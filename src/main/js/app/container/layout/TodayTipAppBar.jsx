@@ -17,11 +17,6 @@ export default class TodayTipAppBar extends Component {
       <div>
         <AppBar
           title="TodayTip"
-          iconElementRight={
-            <div>
-              <TodayTipSearchInput />
-            </div>
-          }
           onLeftIconButtonTouchTap={this.handleLeftIconButtonTouchTap}
         />
       </div>

@@ -1,52 +1,76 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { GridList, GridTile } from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
+import Infinite from 'react-infinite';
+import { GridTile } from 'material-ui/GridList';
 import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { getTips } from '../../services/tip/tip';
 
 class TodayTipList extends React.Component {
 
-  componentDidMount() {
-    this.props.getTips();
+  componentWillMount() {
+    this.setState({ page: 0, elements: [] });
   }
 
-  render() {
-    const styles = {
-      root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-      },
-      gridList: {
-        overflowY: 'auto',
-      },
-    };
+  componentDidMount() {
+    this.updateTips(this.state.page);
+  }
 
-    const { tips } = this.props;
-    const defaultImage = 'https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/14725693_562853750590507_6128949510153984509_n.png?oh=95c03048a0ede9d960041feceab013c9&oe=58BB3113';
+  handleInfiniteLoad = () => {
+    const currentPage = this.state.page;
+    const nextPage = currentPage + 1;
+    if (this.props.totalPages > nextPage) {
+      this.setState({ page: nextPage });
+      this.updateTips(nextPage);
+    }
+  };
 
+  async updateTips(page) {
+    await this.props.getTips(page);
+    await this.buildElements();
+  }
+
+  buildElements = () => {
+    const currentElement = this.state.elements;
+    const newElement = this.props.tips.map(tip => this.renderElements(tip));
+    this.setState({ elements: currentElement.concat(newElement) });
+  };
+
+  elementInfiniteLoad = () => (
+    <div className="infinite-list-item">
+      Loading...
+    </div>
+  );
+
+  renderElements = (tip) => {
+    const defaultImage = 'images/tip.jpg';
     return (
-      <div style={styles.root}>
-        <GridList
-          cellHeight={180}
-          style={styles.gridList}
+      <GridTile
+        key={tip.id}
+        title={tip.title}
+        subtitle={<span>by <b>{tip.writer}</b></span>}
+        style={{ height: 180 }}
+      >
+        <a href={tip.link} target="_blank">
+          <img src={tip.image || defaultImage} alt={tip.title} style={{ width: '100%', height: 180 }} />
+        </a>
+      </GridTile>
+    );
+  };
+
+  render() {
+    return (
+      <div>
+        <Subheader>Today Tip</Subheader>
+        <Infinite
+          elementHeight={180}
+          infiniteLoadBeginEdgeOffset={30}
+          useWindowAsScrollContainer
+          onInfiniteLoad={this.handleInfiniteLoad}
+          loadingSpinnerDelegate={this.elementInfiniteLoad()}
+          isInfiniteLoading={this.props.isLoading}
         >
-          <Subheader>Today Tip</Subheader>
-          {tips.map(tip => (
-            <GridTile
-              key={tip.id}
-              title={tip.title}
-              subtitle={<span>by <b>{tip.writer}</b></span>}
-              actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-            >
-              <a href={tip.link} target="_blank">
-                <img src={tip.image || defaultImage} alt={tip.title} />
-              </a>
-            </GridTile>
-          ))}
-        </GridList>
+          {this.state.elements}
+        </Infinite>
       </div>
     );
   }
@@ -54,7 +78,12 @@ class TodayTipList extends React.Component {
 
 TodayTipList.propTypes = {
   tips: React.PropTypes.array,
+  totalPages: React.PropTypes.number,
+  isLoading: React.PropTypes.bool,
   getTips: React.PropTypes.func,
 };
 
-export default connect(state => ({ tips: state.tip.tips }), { getTips })(TodayTipList);
+export default connect(state => ({ tips: state.tip.tips,
+  totalPages: state.tip.totalPages,
+  isLoading: state.progress.isLoading })
+  , { getTips })(TodayTipList);

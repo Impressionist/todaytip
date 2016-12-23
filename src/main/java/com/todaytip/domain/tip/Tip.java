@@ -1,8 +1,11 @@
 package com.todaytip.domain.tip;
 
+import com.todaytip.domain.tag.Tag;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Transient;
+
+import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,9 +14,7 @@ public class Tip {
     private String title;
     private String link;
     private String writer;
-    private Long readCount;
-    private Long likeCount;
-
-    @Transient
+    private List<Tag> tags;
     private String image;
+    private Date createdAt;
 }

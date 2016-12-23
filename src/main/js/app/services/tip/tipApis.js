@@ -1,5 +1,5 @@
 export default {
-  findAll: () => ({
-    url: '/tips',
+  findAll: page => ({
+    url: `/tips?page=${page}`,
   }),
 };
